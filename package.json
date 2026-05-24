@@ -3,7 +3,7 @@
   "title": "Caffeinate",
   "description": "Keep your Linux system awake on demand, with optional duration.",
   "icon": "extension_icon.png",
-  "author": "Khalid Alsantali",
+  "author": "KhalidAlsantali",
   "categories": ["Other"],
   "license": "MIT",
   "commands": [
