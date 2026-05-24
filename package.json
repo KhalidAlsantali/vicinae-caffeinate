@@ -1,0 +1,39 @@
+{
+  "name": "caffeinate",
+  "title": "Caffeinate",
+  "description": "Keep your Linux system awake on demand, with optional duration.",
+  "icon": "extension_icon.png",
+  "author": "Khalid Alsantali",
+  "categories": ["Other"],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "caffeinate",
+      "title": "Caffeinate",
+      "subtitle": "Keep system awake",
+      "description": "Toggle caffeinate or pick a duration",
+      "mode": "view"
+    },
+    {
+      "name": "toggle",
+      "title": "Toggle Caffeinate",
+      "subtitle": "Quick on/off",
+      "description": "Quickly toggle caffeinate without opening UI",
+      "mode": "no-view"
+    }
+  ],
+  "dependencies": {
+    "@vicinae/api": "*",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^19.0.0",
+    "typescript": "^5.4.0"
+  },
+  "scripts": {
+    "build": "vici build",
+    "dev": "vici develop",
+    "lint": "vici lint"
+  }
+}
