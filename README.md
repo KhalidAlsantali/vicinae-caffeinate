@@ -5,7 +5,7 @@ A [Vicinae](https://vicinae.app) extension that keeps your Linux system awake on
 ## Commands
 
 - **Caffeinate** — opens a UI to view current status and enable caffeination for a preset duration (30 min, 1h, 2h, 4h, 8h, or indefinitely)
-- **Toggle Caffeinate** — quick no-UI toggle for use via hotkey
+- **Toggle Caffeinate** — quick no-UI toggle for use via vicinae alias
 
 ## Requirements
 
@@ -31,7 +31,7 @@ npm run build
 
 Spawns two detached processes that survive across extension invocations:
 
-- **`systemd-inhibit --what=sleep:handle-lid-switch`** — blocks all sleep (idle timeout, explicit suspend, etc.) and prevents logind from acting on lid close, so the system stays awake and the session never locks.
+- **`systemd-inhibit --what=idle:sleep:handle-lid-switch`** — blocks all sleep (idle timeout, explicit suspend, etc.) and prevents logind from acting on lid close, so the system stays awake and the session never locks.
 - **Lid monitor** — polls `/proc/acpi/button/lid/*/state` and calls `kscreen-doctor --dpms off/on` when the lid closes or opens, so the display still blanks on lid close despite the inhibitor.
 
 The inhibitor's end timestamp is encoded in its `--why` field and recovered via `pgrep`, so no pidfile is needed.
