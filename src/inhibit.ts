@@ -1,4 +1,5 @@
 import { spawn, execSync } from "node:child_process";
+import { startLidMonitor, stopLidMonitor } from "./lid";
 
 /**
  * Tag used in `systemd-inhibit --who=` so we can find and stop only the
@@ -36,6 +37,8 @@ export function startInhibitor(durationSec?: number): void {
   const sleepCmd = durationSec ? `sleep ${durationSec}` : "sleep infinity";
   const why = endsAt ? `caffeinate:${endsAt}` : "caffeinate:indefinite";
 
+  startLidMonitor();
+
   const child = spawn(
     "systemd-inhibit",
     [
@@ -51,8 +54,9 @@ export function startInhibitor(durationSec?: number): void {
   child.unref();
 }
 
-/* Kill any caffeinate inhibitors we spawned. */
+/* Kill any caffeinate inhibitors and the lid monitor we spawned. */
 export function stopInhibitor(): void {
+  stopLidMonitor();
   try {
     execSync(`pkill -f 'systemd-inhibit.*--who=${TAG}'`, { stdio: "ignore" });
   } catch {
