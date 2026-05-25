@@ -10,12 +10,13 @@ A [Vicinae](https://vicinae.app) extension that keeps your Linux system awake on
 ## Requirements
 
 - Linux with systemd (`systemd-inhibit` in `PATH`)
+- `kscreen-doctor` for lid-close display blanking on KDE (falls back to `xset` on X11)
 
 ## Installation
 
 ### 1. Install Vicinae
 
-Download and install [Vicinae](https://vicinae.app) for Linux.wddqw
+Download and install [Vicinae](https://vicinae.app) for Linux.
 
 ### 2. Install the extension
 
@@ -28,7 +29,12 @@ npm run build
 
 ## How it works
 
-Spawns a detached `systemd-inhibit` process that blocks idle, sleep, and lid-switch events. The inhibitor survives across extension invocations — no pidfile needed, since the end timestamp is encoded in the inhibitor's `--why` field and recovered via `pgrep`.
+Spawns two detached processes that survive across extension invocations:
+
+- **`systemd-inhibit --what=sleep:handle-lid-switch`** — blocks all sleep (idle timeout, explicit suspend, etc.) and prevents logind from acting on lid close, so the system stays awake and the session never locks.
+- **Lid monitor** — polls `/proc/acpi/button/lid/*/state` and calls `kscreen-doctor --dpms off/on` when the lid closes or opens, so the display still blanks on lid close despite the inhibitor.
+
+The inhibitor's end timestamp is encoded in its `--why` field and recovered via `pgrep`, so no pidfile is needed.
 
 ## Attribution
 
